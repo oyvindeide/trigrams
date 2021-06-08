@@ -1,5 +1,7 @@
 import argparse
 from pathlib import Path
+import random
+import sys
 
 from trigrams.trigram import get_word_trigram
 
@@ -24,10 +26,21 @@ def _parser():
 
     return parser
 
+def create_content(data):
+    entry_id = random.randrange(len(data))
+    entry = list(data.keys())[entry_id]
+    result = []
+    for _ in range(100):
+        selected_word = data[entry][random.randrange(len(data[entry]))]
+        result.append(selected_word)
+        entry = selected_word
+    return result
 
-def main():
+
+def main(args=None):
+    args = args or sys.argv
     parser = _parser()
-    options = parser.parse_args()
+    options = parser.parse_args(args)
 
     with open(options.input_file, "r") as fin:
         input_data = fin.read().replace("\n", "")
@@ -35,3 +48,5 @@ def main():
     result = get_word_trigram(input_data)
     for key, val in result.items():
         print(f"{key} => {val}")
+    content = create_content(result)
+    print("\n".join(content))
