@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from trigrams.trigram import get_word_trigram
+from trigrams.trigram import get_word_trigram, create_text
 
 
 def _is_valid_file(arg):
@@ -32,6 +32,18 @@ def main():
     with open(options.input_file, "r") as fin:
         input_data = fin.read().replace("\n", " ")
 
-    result = get_word_trigram(input_data)
-    for key, val in result.items():
-        print(f"{key} => {val}")
+    filtered_input = sanitize_input(input_data)
+
+    result = get_word_trigram(filtered_input)
+
+    print(create_text(200, result))
+
+
+def sanitize_input(input_str):
+    input_data = input_str.lower()
+
+    filtered_data = ""
+    for letter in input_data:
+        if letter.isalpha() or letter == " ":
+            filtered_data += letter
+    return filtered_data
