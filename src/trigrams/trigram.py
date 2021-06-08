@@ -11,6 +11,8 @@ def get_word_trigram(input_str: str):
 
 
 def parse_iter(tokens):
+    if len(tokens)<=2:
+        raise ValueError(f"tokens must be of length greater than 2, was {len(tokens)}")
     trigram = []
     token_1 = tokens[0]
     token_2 = tokens[1]

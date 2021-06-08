@@ -20,3 +20,13 @@ def test_word_trigram():
 )
 def test_parser(valid_input, expected_result):
     assert parse_iter(valid_input) == expected_result
+
+
+@pytest.mark.parametrize(
+    "invalid_input, expected_err",
+    [("ab", "tokens must be of length"), (["a"], "tokens must be of length")],
+)
+def test_invalid_parse_input(invalid_input, expected_err):
+    with pytest.raises(ValueError) as err:
+        parse_iter(invalid_input)
+    assert expected_err in str(err.value)
