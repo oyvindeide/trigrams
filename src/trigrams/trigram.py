@@ -1,3 +1,4 @@
+import random
 from collections import defaultdict
 
 
@@ -19,3 +20,19 @@ def parse_iter(tokens):
         token_1 = token_2
         token_2 = token_3
     return trigram
+
+
+def create_text(nr_words, trigram_map, start_key="random"):
+    if start_key == "random":
+        key = random.choice(list(trigram_map.keys()))
+    else:
+        if start_key in trigram_map.keys():
+            key = start_key
+        else:
+            raise ValueError(f"No such key {start_key}" in {trigram_map.keys()})
+    result = key
+    for _ in range(nr_words):
+        next_word = random.choice(trigram_map[key])
+        result += " " + next_word
+        key = key.split(" ")[1] + " " + next_word
+    return result

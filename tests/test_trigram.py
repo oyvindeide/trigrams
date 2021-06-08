@@ -1,5 +1,7 @@
+import random
+
 import pytest
-from trigrams.trigram import parse_iter, get_word_trigram
+from trigrams.trigram import parse_iter, get_word_trigram, create_text
 
 
 def test_word_trigram():
@@ -20,3 +22,15 @@ def test_word_trigram():
 )
 def test_parser(valid_input, expected_result):
     assert parse_iter(valid_input) == expected_result
+
+
+def test_create_text():
+    input_data = {
+        "I wish": ["I", "I"],
+        "wish I": ["may", "might"],
+        "may I": ["wish"],
+        "I may": ["I"],
+    }
+
+    random.seed(1234)
+    assert create_text(2, input_data) == "I may I wish"
