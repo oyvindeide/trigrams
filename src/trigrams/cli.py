@@ -30,7 +30,7 @@ def main():
     options = parser.parse_args()
 
     with open(options.input_file, "r") as fin:
-        input_data = fin.read().replace("\n", "")
+        input_data = fin.read().replace("\n", " ")
 
     result = get_word_trigram(input_data)
     for key, val in result.items():
